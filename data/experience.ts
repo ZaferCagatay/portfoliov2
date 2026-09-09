@@ -1,0 +1,4 @@
+export const experience = [
+ {date:{en:"2022–Present",tr:"2022–Günümüz"},title:{en:"Independent Software Developer",tr:"Bağımsız Yazılım Geliştirici"},body:{en:"Production SaaS, mobile products, and internal business platforms. Product engineering and ongoing ownership across Karta and Pavlov.",tr:"Canlı SaaS ürünleri, mobil uygulamalar ve şirket içi iş platformları. Karta ve Pavlov’da ürün mühendisliği ve sürekli teknik sorumluluk."}},
+ {date:{en:"2021–2022",tr:"2021–2022"},title:{en:"Full-Stack Development Intern",tr:"Full-Stack Geliştirme Stajyeri"},company:"Mivento Bilişim A.Ş.",body:{en:"Frontend improvements, API integrations, debugging, performance work, and end-to-end testing with senior developers.",tr:"Kıdemli geliştiricilerle arayüz iyileştirmeleri, API entegrasyonları, hata ayıklama, performans çalışmaları ve uçtan uca testler."}},
+];

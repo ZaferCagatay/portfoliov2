@@ -1,0 +1,9 @@
+export type Locale = "en" | "tr";
+export type Copy = {
+  approach: string; about: string; role: string; headline: string; description: string; context: string;
+  work: string; contact: string; resume: string; menu: string; closeMenu: string;
+  navigation: string; skip: string; language: string; pause: string; resumeMotion: string;
+  reducedMotion: string; proof: string; kartaLabel: string; pavlovLabel: string;
+  kartaAlt: string; pavlovAlt: string; scroll: string; working: string;
+};
+export type NavigationItem = { label: string; href: string };

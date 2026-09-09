@@ -1,0 +1,54 @@
+.carousel { --slide-size: min(880px, 78%); --gap: 32px; min-height: 680px; padding-top: 32px; }
+.stage { position: relative; isolation: isolate; }
+.background { position: absolute; inset: 0; overflow: hidden; z-index: -1; border-radius: 12px; }
+.background > div { position: absolute; inset: 0; }
+.background img { object-fit: cover; opacity: .16; }
+.background::after { content: ""; position: absolute; inset: 0; background: #0a0a0a66; }
+.viewport { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; padding: 16px 0; }
+.track { display: flex; gap: var(--gap); align-items: stretch; }
+.slide { flex: 0 0 var(--slide-size); min-width: 0; scroll-snap-align: center; }
+.carousel[data-enhanced="true"] .viewport { overflow: hidden; scroll-snap-type: none; }
+.carousel[data-enhanced="true"] .track { touch-action: pan-y pinch-zoom; }
+.slide:last-child { margin-right: var(--gap); }
+.card { height: 100%; display: grid; grid-template-columns: 1.15fr 1fr; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.visual { min-width: 0; display: flex; flex-direction: column; justify-content: center; background: var(--background-alt); border-radius: 12px 0 0 12px; padding: 24px; }
+.imageComposition { position: relative; display: flex; justify-content: center; align-items: center; min-height: 330px; transition: transform 300ms var(--ease); }
+.carousel[data-enhanced="true"] .slide:not([data-selected="true"]) .imageComposition { transform: scale(.97); }
+.mainImage { display: block; width: 100%; height: auto; object-fit: contain; }
+.visual[data-kind="desktop"] .imageComposition { padding-bottom: 110px; }
+.detailImage { position: absolute; right: -8px; bottom: 16px; width: 38%; height: auto; max-height: 240px; object-fit: contain; border: 1px solid var(--border); border-radius: 6px; }
+.visual[data-kind="mobile"] .mainImage { width: min(65%, 220px); border-radius: 18px; }
+.visual[data-kind="mobile"] .detailImage { width: 38%; right: -4px; bottom: 32px; max-height: none; border-radius: 18px; }
+.visual[data-kind="diagram"] .mainImage { max-width: 360px; }
+.diagramCaption { font-size: 11px; text-align: center; margin-top: 12px; }
+.information { min-width: 0; padding: 32px 28px; display: flex; flex-direction: column; }
+.identity { display: flex; gap: 14px; color: var(--muted); font-size: 11px; margin-bottom: 20px; }
+.identity > span:first-child { font-family: var(--font-ibm-plex-mono), monospace; color: var(--foreground); }
+.information h3 { font-size: clamp(26px, 2.4vw, 34px); line-height: 1.18; text-wrap: balance; }
+.description { margin-top: 16px; font-size: 15px; }
+.role { margin: 24px 0 12px; }
+.role dt { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+.role dd { margin: 0; font-size: 13px; }
+.contribution, .fact { font-size: 13px; line-height: 1.7; }
+.fact { margin-top: 12px; }
+.technologies { display: flex; flex-wrap: wrap; gap: 6px 14px; list-style: none; padding: 0; margin: 24px 0; color: var(--muted); font-size: 11px; font-family: var(--font-ibm-plex-mono), monospace; }
+.actions { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
+.actions a { display: inline-flex; align-items: center; min-height: 44px; gap: 8px; font-size: 13px; text-decoration: underline; }
+.actions a:hover { color: var(--primary-hover); }
+.actions p { padding-block: 12px; font-size: 12px; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 20px; }
+.selectors, .navigation { display: flex; align-items: center; gap: 8px; }
+.controls button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 1px solid var(--control-border); background: transparent; color: var(--foreground); border-radius: 6px; transition: background var(--interaction), color var(--interaction); }
+.selectors button { border-color: transparent; color: var(--secondary); font: 12px var(--font-ibm-plex-mono), monospace; }
+.selectors button[aria-current="true"] { border-color: var(--primary); color: var(--foreground); }
+.controls button:hover:not(:disabled) { background: var(--surface-elevated); }
+.controls button:disabled { opacity: .4; cursor: default; }
+.count { font: 12px var(--font-ibm-plex-mono), monospace; font-variant-numeric: tabular-nums; margin-right: 16px; color: var(--secondary); }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.carousel[data-stopped="true"] .imageComposition { transform: none !important; transition: none; }
+@media (max-width: 1439px) { .carousel { --gap: 28px; } }
+@media (max-width: 1199px) { .carousel { --slide-size: 84%; --gap: 24px; } .information { padding: 28px 24px; } }
+@media (max-width: 1023px) { .carousel { --slide-size: 90%; --gap: 20px; min-height: 620px; } .card { grid-template-columns: 1fr; } .visual { border-radius: 12px 12px 0 0; padding: 24px; } .imageComposition { min-height: 0; height: 320px; } .mainImage { height: 100%; width: 100%; } .visual[data-kind="desktop"] .imageComposition { padding-bottom: 0; } .detailImage { display: none; } .visual[data-kind="mobile"] .mainImage { width: auto; max-width: 100%; } .visual[data-kind="diagram"] .imageComposition { height: auto; } .visual[data-kind="diagram"] .mainImage { height: auto; width: min(100%, 320px); } .information { padding: 28px; } }
+@media (max-width: 767px) { .carousel { --slide-size: calc(100% - 16px); --gap: 16px; min-height: 560px; padding-top: 24px; } .background { display: none; } .visual { padding: 16px; } .imageComposition { height: auto; min-height: 180px; } .visual[data-kind="mobile"] .imageComposition { height: 300px; } .mainImage { height: auto; } .visual[data-kind="mobile"] .mainImage { height: 100%; } .information { padding: 24px 20px; } .information h3 { font-size: 26px; } .controls { gap: 8px; } .selectors, .navigation { gap: 2px; } .count { margin-right: 6px; font-size: 10px; } .imageComposition { transform: none !important; } }
+@media (max-width: 374px) { .carousel { --gap: 12px; } .controls { flex-wrap: wrap; } .count { display: none; } }
+@media (prefers-reduced-motion: reduce) { .imageComposition, .controls button { transition: none; transform: none !important; } }
