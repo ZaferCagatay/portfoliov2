@@ -1,7 +1,18 @@
-  .scopeFlow { display: flex; align-items: center; gap: 16px; }
-  .scopeFlow > span:first-child { border: 1px dashed var(--control-border); border-radius: 6px; padding: 14px; }
-  .scopeFlow > span:last-child { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
-  .scopeFlow strong { font-weight: 500; border-bottom: 1px solid var(--control-border); color: var(--foreground); padding-bottom: 5px; }
+.scopeFlow { display: grid; grid-template-columns: minmax(0, .85fr) 28px minmax(0, 1.4fr); align-items: center; }
+.scopeInputs { display: grid; gap: 10px; }
+.scopeInputs > span { position: relative; display: flex; align-items: center; height: 38px; padding: 3px 6px; border: 1px dashed var(--engineering-line); border-radius: 4px; line-height: 1.3; }
+.scopeInputs > span::after { content: ''; position: absolute; left: 100%; top: 50%; width: 14px; height: 1px; background: var(--engineering-line); }
+.scopeConnector { position: relative; height: 96px; margin-left: 13px; border-left: 1px solid var(--engineering-line); }
+.scopeConnector > svg { position: absolute; top: calc(50% - 7px); left: 0; color: var(--secondary); }
+.scopeVersion { min-width: 0; border: 1px solid var(--control-border); border-radius: 6px; background: var(--surface); overflow: hidden; }
+.scopeVersion > strong { display: flex; align-items: center; gap: 6px; padding: 10px; border-bottom: 1px solid var(--border); color: var(--foreground); font-weight: 500; }
+.scopeVersion > strong svg { flex-shrink: 0; }
+.scopeJourney { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 4px 8px; }
+.scopeJourney > span { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 10px; }
+.scopeJourney i { width: 8px; height: 8px; border: 1px solid var(--secondary); border-radius: 50%; }
+.scopeJourney > span:last-child i { background: var(--foreground); border-color: var(--foreground); }
+.scopeJourney svg { position: absolute; top: -1px; left: calc(100% - 6px); color: var(--muted); }
+.scopeCaption { display: block; padding: 0 8px 10px; text-align: center; font-size: 10px; color: var(--muted); line-height: 1.5; }
   .planFlow > span { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; }
   .planFlow > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid var(--engineering-line); padding-top: 12px; }
   .planFlow > div > span { position: relative; border: 1px dashed var(--control-border); text-align: center; padding: 10px 5px; font-size: 10px; }
@@ -177,8 +188,6 @@
   .step p { font-size: 13px; margin-top: 8px; max-width: 40ch; }
   .outcome { display: none; }
   .stepVisual { margin-top: 20px; }
-  .scopeFlow { gap: 12px; }
-  .scopeFlow > span:first-child { padding: 12px; }
   .servicesFlow { gap: 18px; }
   .servicesFlow > span::after { width: 19px; }
   .servicesFlow > div { gap: 12px; padding-left: 12px; }

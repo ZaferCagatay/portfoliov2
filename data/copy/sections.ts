@@ -17,7 +17,7 @@ export const sections = {
     toolkit: 'A practical stack for shipping products.',
     about: 'Building, shipping, and staying responsible.',
     biography:
-      'Based in Istanbul, Türkiye, I work with teams worldwide as an independent B2B contractor. My work spans product interfaces, backend systems, mobile delivery, and ongoing production ownership.',
+      "Full-stack engineer based in Istanbul, Türkiye, with experience across frontend, backend, databases, mobile, and AI integrations. I've worked as an independent B2B contractor with teams worldwide, building production SaaS products and the systems that keep them reliable after launch.",
     languages: 'Turkish · Native / English · B2',
     contact: 'Have a product to build or a system to improve?',
     invitation:

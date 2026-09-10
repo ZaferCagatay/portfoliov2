@@ -6,8 +6,8 @@ export const experience = [
       tr: 'Bağımsız Yazılım Geliştirici',
     },
     body: {
-      en: 'Production SaaS, mobile products, and internal business platforms. Product engineering and ongoing ownership across Karta and Pavlov.',
-      tr: 'Canlı SaaS ürünleri, mobil uygulamalar ve şirket içi iş platformları. Karta ve Pavlov’da ürün mühendisliği ve sürekli teknik sorumluluk.',
+      en: 'Production SaaS, mobile products, and internal business platforms. Product engineering and ongoing ownership across Karta, Pavlov and more.',
+      tr: 'Canlı SaaS ürünleri, mobil uygulamalar ve şirket içi iş platformları. Karta, Pavlov ve çok daha fazlasında ürün mühendisliği & sürekli teknik sorumluluk.',
     },
   },
   {

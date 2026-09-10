@@ -21,7 +21,7 @@ export const engineeringCopy = {
         description:
           'Start with the user flow, the constraints, and the first useful version.',
         outcome: 'A clear scope',
-        labels: ['User need', 'Constraints', 'First version'],
+        labels: ['User need', 'User flow', 'Constraints', 'First version', 'Start', 'Action', 'Result', 'A complete user flow'],
       },
       {
         title: 'Plan the system',
@@ -134,7 +134,7 @@ export const engineeringCopy = {
         title: 'Problemi anla',
         description: 'Kullanıcı akışı, kısıtlar ve ilk faydalı sürümle başla.',
         outcome: 'Net bir kapsam',
-        labels: ['Kullanıcı ihtiyacı', 'Kısıtlar', 'İlk sürüm'],
+        labels: ['Kullanıcı ihtiyacı', 'Kullanıcı akışı', 'Kısıtlar', 'İlk sürüm', 'Giriş', 'İşlem', 'Sonuç', 'Uçtan uca kullanıcı akışı'],
       },
       {
         title: 'Sistemi planla',
