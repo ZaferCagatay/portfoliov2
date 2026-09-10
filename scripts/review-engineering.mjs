@@ -1,63 +1,59 @@
-import { chromium } from '@playwright/test';
+import { chromium, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
-const base = 'http://127.0.0.1:3000';
+const base = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3100';
 let server;
-try { await fetch(base); } catch {
-  server = spawn('npm', ['run', 'dev', '--', '--hostname', '127.0.0.1', '--port', '3000'], { stdio: 'ignore', detached: true });
-  for (let i = 0; i < 60; i++) { try { await fetch(base); break; } catch { await new Promise(r => setTimeout(r, 500)); } }
+try { await fetch(base, { signal: AbortSignal.timeout(2000) }); } catch {
+  server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', new URL(base).port || '3100'], {stdio: 'ignore'});
+  for (let i = 0; i < 30; i++) {
+    if (server.exitCode !== null) throw new Error('Preview server exited');
+    try { await fetch(base, {signal: AbortSignal.timeout(2000)}); break; } catch { await new Promise(resolve => setTimeout(resolve, 500)); }
+  }
 }
-const browser = await chromium.launch({ executablePath: '/home/cenk/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome' });
-const out = '.impeccable/review/engineering';
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH });
+const out = '.impeccable/review/engineering-pinned';
 await mkdir(out, { recursive: true });
 const report = [];
 try {
-  for (const [route, width] of [['/', 1440], ['/tr', 1440], ['/', 768], ['/', 390], ['/tr', 360], ['/', 320]]) {
-    const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
+  for (const [width, height, locale, reduced] of [[1440, 900, 'en', false], [1366, 768, 'en', false], [1024, 768, 'tr', false], [1280, 720, 'en', true], [390, 844, 'en', true], [320, 900, 'tr', true]]) {
+    const context = await browser.newContext({viewport: {width, height}, reducedMotion: reduced ? 'reduce' : 'no-preference'});
+    const page = await context.newPage();
     const errors = [];
-    page.on('pageerror', error => errors.push(error.message));
-    await page.goto(base + route);
+    page.on('pageerror', e => errors.push(e.message));
+    await page.goto(base + (locale === 'en' ? '/' : '/tr'));
     await page.evaluate(() => document.fonts.ready);
     const section = page.locator('#approach');
-    await section.scrollIntoViewIfNeeded();
-    const name = `${route === '/' ? 'en' : 'tr'}-${width}`;
-    await section.screenshot({ path: `${out}/${name}-karta.png` });
-    const controls = section.getByRole('group').getByRole('button');
-    await controls.nth(1).focus();
-    await page.keyboard.press('Enter');
-    if (await controls.nth(1).getAttribute('aria-pressed') !== 'true') throw new Error('Keyboard product switch failed');
-    const nodes = section.locator('button[aria-controls]');
-    const details = [];
-    for (let i = 0; i < 4; i++) {
-      await nodes.nth(i).focus();
-      await page.keyboard.press('Space');
-      details.push(await section.getByRole('status').innerText());
-      if (await nodes.nth(i).getAttribute('aria-pressed') !== 'true') throw new Error('Keyboard layer selection failed');
+    const root = section.locator('[data-phase]');
+    await expect(root).toHaveAttribute('data-enhanced', 'true');
+    const pinned = await root.getAttribute('data-pinned') === 'true';
+    if (pinned) {
+      for (const phase of [0, 3, 7]) {
+        await root.evaluate((el, phase) => window.scrollTo({top: Number(el.dataset.scrollStart) + Number(el.dataset.scrollSegment) * (phase + .5), behavior: 'instant'}), phase);
+        await expect(root).toHaveAttribute('data-phase', String(phase));
+        await page.waitForTimeout(750);
+        await page.screenshot({path: `${out}/${locale}-${width}-${height}-step${phase + 1}.png`});
+      }
+    } else {
+      await section.screenshot({path: `${out}/${locale}-${width}-${height}-natural.png`});
     }
-    await nodes.nth(1).click();
-    await page.evaluate(() => document.activeElement?.blur());
-    await section.screenshot({ path: `${out}/${name}-pavlov.png` });
-    const overflow = await section.evaluate(el => Array.from(el.querySelectorAll('*')).filter(child => {
-      const rect = child.getBoundingClientRect();
-      return rect.width > 1 && (rect.right > innerWidth + 1 || rect.left < -1);
-    }).map(el => ({tag: el.tagName, cls: el.className})));
-    const axe = await new AxeBuilder({ page }).include('#approach').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-    report.push({route, width, errors, overflow, violations: axe.violations, detailStates: details.length,
-      runningAnimations: await section.evaluate(el => el.getAnimations({subtree: true}).filter(a => a.playState === 'running').length)});
-    await page.close();
+    const overflow = await section.evaluate(el => Array.from(el.querySelectorAll('*')).filter(child => { const r = child.getBoundingClientRect(); return r.width > 1 && (r.left < -1 || r.right > innerWidth + 1); }).map(el => ({tag: el.tagName, cls: el.className})));
+    const violations = (await new AxeBuilder({page}).include('#approach').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations;
+    let fit;
+    if (width === 1280) fit = await root.evaluate(el => {
+      el.dataset.pinned = 'true';
+      const viewport = el.querySelector('[data-engineering-viewport]');
+      return {height: viewport.offsetHeight, scrollHeight: viewport.scrollHeight, children: Array.from(viewport.children).map(c => ({cls: c.className, height: c.getBoundingClientRect().height})), figure: el.querySelector('figure').getBoundingClientRect().height};
+    });
+    report.push({width, height, locale, reduced, pinned, errors, overflow, violations, fit});
+    await context.close();
   }
-  const page = await browser.newPage({viewport: {width: 1440, height: 1000}, reducedMotion: 'no-preference'});
+  const context = await browser.newContext({javaScriptEnabled:false, viewport: {width:320, height:900}});
+  const page = await context.newPage();
   await page.goto(base);
-  await page.locator('#approach').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1200);
-  const settled = await page.locator('#approach').evaluate(el => el.getAnimations({subtree:true}).filter(a => a.playState === 'running').length);
-  report.push({motion: 'finite entrance settled', runningAnimations: settled});
-  await page.close();
-  const nojs = await browser.newPage({javaScriptEnabled: false, viewport: {width: 390, height: 1000}});
-  await nojs.goto(base);
-  report.push({noJavaScript: await nojs.locator('#approach').getByRole('heading').allTextContents()});
-  await nojs.close();
-  await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report, null, 2));
-} finally { await browser.close(); if(server) { try { process.kill(-server.pid, 'SIGTERM'); } catch {} } }
+  await page.evaluate(() => document.fonts.ready);
+  report.push({nojs: await page.evaluate(() => ({width: innerWidth, scrollWidth: document.documentElement.scrollWidth, overflow: Array.from(document.querySelectorAll('body *')).filter(el => {const r=el.getBoundingClientRect(); return r.width>1 && (r.right>innerWidth+1 || r.left < -1); }).map(el => ({tag:el.tagName, cls:el.className})).slice(0,20)}))});
+  await context.close();
+  await writeFile(`${out}/report.json`, JSON.stringify(report,null,2));
+  console.log(JSON.stringify(report,null,2));
+} finally { await browser.close(); server?.kill('SIGTERM'); }

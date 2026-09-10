@@ -1,113 +1,235 @@
-// Authority: public/resume/Zafer_Cagatay_Umut_Resume.pdf.
-// These are conceptual relationships, not literal deployment topologies.
-// SQLite synchronization is verified; a particular outbox implementation is not.
+// Process direction: the user's product-engineering brief.
+// Capability evidence: the resume and existing project data. No project-specific
+// topology, numerical performance claim, or implied team-wide responsibility.
 export const engineeringCopy = {
   en: {
-    heading: 'From interface', headingEnd: 'to production.',
-    intro: 'I build the product, the systems behind it, and the path to production. Then I stay responsible for what happens next.',
-    scope: 'Web · Mobile · APIs · Data · AI · Infrastructure',
-    explore: 'Explore a production system', summary: 'Architecture highlights', systemLabel: 'Product architecture and ownership',
-    layers: ['Product interface', 'Application boundary', 'Persistent data'],
-    inspect: 'Select a layer to explore my work.', ownership: 'What I own',
-    ai: 'AI through the application', deployment: 'Delivery & operation', overview: 'Simplified system map · real project responsibilities',
-    projects: {
-      karta: {
-        kind: 'Multi-tenant finance & CRM', client: 'Web workspace', clientTech: 'Next.js / React',
-        screens: ['Finance', 'CRM', 'Analysis'], api: 'Express / TypeScript',
-        gates: ['Authentication', 'Tenant context + RBAC', 'Financial workflows'], data: ['Company data', 'Financial records', 'CRM relationships'],
-        ai: 'OpenAI', aiFlow: 'Financial context → analysis & scenarios',
-        deployment: ['Docker deployment', 'Production debugging', 'Ongoing improvements'],
-        details: [
-          'Turned an inherited codebase into a production finance and CRM workspace used by multiple businesses.',
-          'Own REST APIs, authentication, tenant isolation, role-based permissions, and financial product workflows.',
-          'Own the PostgreSQL data model and the boundaries between each company’s business data.',
-          'Built OpenAI-powered financial analysis, scoring, scenarios, and natural-language product features.',
+    heading: 'A product problem.',
+    headingEnd: 'A path to production.',
+    intro:
+      'I turn requirements into interfaces, systems, running software and keep improving what ships.',
+    scope: 'Product thinking. Full-stack implementation. Ongoing ownership.',
+    journey: 'The engineering lifecycle',
+    diagram: 'How a product becomes a production system',
+    assembly: 'One product, built layer by layer.',
+    complete: 'The complete system',
+    previous: 'Previous engineering stage',
+    next: 'Next engineering stage',
+    diagramNote: 'A general workflow; the architecture follows the product.',
+    stages: [
+      {
+        title: 'Understand the problem',
+        description:
+          'Start with the user flow, the constraints, and the first useful version.',
+        outcome: 'A clear scope',
+        labels: ['User need', 'Constraints', 'First version'],
+      },
+      {
+        title: 'Plan the system',
+        description:
+          'Shape the experience, API boundaries, and data ownership before implementation.',
+        outcome: 'An intentional structure',
+        labels: ['User flow', 'Interface', 'API contract', 'Data model'],
+      },
+      {
+        title: 'Build the interface',
+        description:
+          'Make the product work across screens, devices, and every interaction state.',
+        outcome: 'A usable web or mobile product',
+        labels: ['User action', 'Ready', 'Loading', 'Empty', 'Error'],
+      },
+      {
+        title: 'Build the core',
+        description:
+          'Connect the interface to validated APIs, business rules, and reliable data.',
+        outcome: 'A working vertical slice',
+        labels: [
+          'Validate',
+          'Authorize',
+          'Business logic',
+          'Schema',
+          'Integrity',
+          'Data boundaries',
         ],
       },
-      pavlov: {
-        kind: 'Production iOS & Android product', client: 'Mobile companion', clientTech: 'React Native / Expo',
-        screens: ['Pet care', 'Health records', 'AI chat'], api: 'Node.js / Express',
-        gates: ['Authentication', 'Subscriptions + entitlements', 'Pet-care workflows'], data: ['PostgreSQL backend', 'SQLite on device', 'Offline synchronization'],
-        ai: 'AI / LLM services', aiFlow: 'Product context → chat & image features',
-        deployment: ['iOS / Android releases', 'Real-user production fixes', 'Performance & reliability'],
-        details: [
-          'Built and shipped the React Native / Expo app on iOS and Android, with local SQLite data and offline synchronization.',
-          'Built REST APIs, authentication, subscriptions and entitlements, notifications, admin tooling, and cloud storage integrations.',
-          'Connect the PostgreSQL backend with offline-first SQLite on the device, keeping mobile and backend work in one product.',
-          'Integrated AI chat and image features into the mobile product and its backend services.',
+      {
+        title: 'Connect the services',
+        description:
+          'Integrate the capabilities the product needs, with clear boundaries.',
+        outcome: 'One connected system',
+        labels: ['Product', 'AI', 'Payments', 'Storage', 'Notifications'],
+      },
+      {
+        title: 'Test and refine',
+        description:
+          'Follow real user journeys. Find the broken edges. Make the experience hold up.',
+        outcome: 'Ready beyond the happy path',
+        labels: [
+          'User flows',
+          'Edge cases',
+          'Devices',
+          'Accessibility',
+          'Performance',
+          'Regressions',
         ],
       },
+      {
+        title: 'Ship to production',
+        description:
+          'Move from local development to configured environments and repeatable releases.',
+        outcome: 'Running software',
+        labels: ['Configure', 'Migrate', 'Release', 'Web / mobile / cloud'],
+      },
+      {
+        title: 'Observe and improve',
+        description:
+          'Turn production issues and user feedback into the next useful change.',
+        outcome: 'The next iteration',
+        labels: ['Logs + feedback', 'Debug + improve', 'Next requirement'],
+      },
+    ],
+    map: {
+      requirement: 'Product requirement',
+      scope: 'User flow + first useful version',
+      experience: 'Product experience',
+      interface: 'Web / mobile interface',
+      states: 'Responsive · loading · empty · error',
+      application: 'Application layer',
+      api: 'API',
+      auth: 'Auth + permissions',
+      logic: 'Business logic',
+      data: 'Data model',
+      records: 'Relationships + integrity',
+      boundaries: 'Access + data boundaries',
+      local: 'Local / offline where needed',
+      services: 'Integrations',
+      optional: 'As the product needs',
+      integrations: ['AI', 'Payments', 'Storage', 'Notifications'],
+      quality: 'Test + refine',
+      checks: 'User flows · edge cases · devices · performance',
+      production: 'Production',
+      release: 'Environment → migrations → release',
+      feedback: 'Logs → debug → improve',
+      return: 'Back to the next requirement',
     },
-    tenancy: {
-      title: 'One product. Separate businesses.', description: 'A shared application with explicit access and data boundaries.',
-      label: 'Conceptual tenant isolation: each company passes role-based access control to access its own records.',
-      company: 'Company', boundary: 'Access boundary', records: 'Records', caption: 'Logical tenant isolation · role-based access',
-    },
-    offline: {
-      title: 'Useful beyond the connection.', description: 'Local data on the device. Synchronization with the backend.',
-      label: 'Conceptual offline flow: mobile uses local SQLite; synchronization connects the device to REST APIs and PostgreSQL.',
-      device: 'On the device', cloud: 'On the backend', mobile: 'Mobile UI', local: 'Available offline',
-      connection: 'When connected', synchronize: 'Synchronize', backend: 'Shared product data', caption: 'Offline-first architecture · SQLite synchronization',
-    },
-    lifecycle: {
-      title: 'Shipping is a loop.', description: 'I own the work on both sides of a release.',
-      steps: [['Define', 'Product need'], ['Build', 'UI + business logic'], ['Integrate', 'APIs + data'], ['Ship', 'Deploy + release'], ['Observe', 'Real-world issues'], ['Improve', 'Fix + optimize']],
-      loop: 'Production feedback informs the next change',
-    },
-    also: 'Across other production work', operations: 'Internal operations', affiliate: 'Affiliate platform', realtime: 'Realtime tracking + payout workflows',
+    close: 'The release is a milestone.',
+    closeEnd: 'Ownership continues.',
+    closeDetail: 'Real usage → feedback → the next iteration',
   },
   tr: {
-    heading: 'Arayüzden', headingEnd: 'canlı ürüne.',
-    intro: 'Ürünü, arkasındaki sistemleri ve canlıya giden yolu kuruyorum. Sonrasında da sorumluluğunu üstleniyorum.',
-    scope: 'Web · Mobil · API · Veri · Yapay zekâ · Altyapı',
-    explore: 'Canlı bir sistemi keşfedin', summary: 'Mimarinin ana hatları', systemLabel: 'Ürün mimarisi ve teknik sorumluluk',
-    layers: ['Ürün arayüzü', 'Uygulama sınırı', 'Kalıcı veri'],
-    inspect: 'Çalışmalarımı görmek için bir katman seçin.', ownership: 'Üstlendiğim sorumluluk',
-    ai: 'Uygulama üzerinden yapay zekâ', deployment: 'Dağıtım ve işletim', overview: 'Özet sistem haritası · gerçek proje sorumlulukları',
-    projects: {
-      karta: {
-        kind: 'Çok kiracılı finans ve CRM', client: 'Web çalışma alanı', clientTech: 'Next.js / React',
-        screens: ['Finans', 'CRM', 'Analiz'], api: 'Express / TypeScript',
-        gates: ['Kimlik doğrulama', 'Kiracı bağlamı + RBAC', 'Finansal iş akışları'], data: ['Şirket verileri', 'Finansal kayıtlar', 'CRM ilişkileri'],
-        ai: 'OpenAI', aiFlow: 'Finansal bağlam → analiz ve senaryolar',
-        deployment: ['Docker ile dağıtım', 'Canlıda hata ayıklama', 'Sürekli iyileştirme'],
-        details: [
-          'Devraldığım kod tabanını, birden fazla işletmenin kullandığı canlı bir finans ve CRM ürününe dönüştürdüm.',
-          'REST API’ler, kimlik doğrulama, kiracı izolasyonu, rol tabanlı yetkiler ve finansal ürün akışlarını üstleniyorum.',
-          'PostgreSQL veri modelini ve şirketlerin iş verileri arasındaki sınırları tasarlıyor ve sürdürüyorum.',
-          'OpenAI destekli finansal analiz, puanlama, senaryo ve doğal dil özellikleri geliştirdim.',
+    heading: 'Bir ürün problemi.',
+    headingEnd: 'Canlıya giden bir yol.',
+    intro:
+      'Gereksinimleri arayüzlere, sistemlere ve çalışan yazılıma dönüştürüyor; yayına çıkan ürünü geliştirmeye devam ediyorum.',
+    scope: 'Ürün odaklı düşünce. Full-stack geliştirme. Sürekli sorumluluk.',
+    journey: 'Ürün geliştirme yaşam döngüsü',
+    diagram: 'Bir ürünün canlı sisteme dönüşümü',
+    assembly: 'Katman katman kurulan bir ürün.',
+    complete: 'Sistemin bütünü',
+    previous: 'Önceki geliştirme aşaması',
+    next: 'Sonraki geliştirme aşaması',
+    diagramNote:
+      'Genel bir iş akışı; mimari, ürünün ihtiyacına göre şekillenir.',
+    stages: [
+      {
+        title: 'Problemi anla',
+        description: 'Kullanıcı akışı, kısıtlar ve ilk faydalı sürümle başla.',
+        outcome: 'Net bir kapsam',
+        labels: ['Kullanıcı ihtiyacı', 'Kısıtlar', 'İlk sürüm'],
+      },
+      {
+        title: 'Sistemi planla',
+        description:
+          'Geliştirmeden önce deneyimi, API sınırlarını ve veri sorumluluğunu şekillendir.',
+        outcome: 'Bilinçli bir yapı',
+        labels: ['Kullanıcı akışı', 'Arayüz', 'API sözleşmesi', 'Veri modeli'],
+      },
+      {
+        title: 'Arayüzü geliştir',
+        description:
+          'Ürünü farklı ekranlarda, cihazlarda ve her etkileşim durumunda kullanılabilir kıl.',
+        outcome: 'Kullanılabilir bir web veya mobil ürün',
+        labels: ['Kullanıcı eylemi', 'Hazır', 'Yükleniyor', 'Boş', 'Hata'],
+      },
+      {
+        title: 'Çekirdeği kur',
+        description:
+          'Arayüzü doğrulanmış API’lere, iş kurallarına ve güvenilir veriye bağla.',
+        outcome: 'Uçtan uca çalışan bir akış',
+        labels: [
+          'Doğrula',
+          'Yetkilendir',
+          'İş mantığı',
+          'Şema',
+          'Bütünlük',
+          'Veri sınırları',
         ],
       },
-      pavlov: {
-        kind: 'Canlı iOS ve Android ürünü', client: 'Mobil yardımcı', clientTech: 'React Native / Expo',
-        screens: ['Evcil hayvan', 'Sağlık kayıtları', 'AI sohbet'], api: 'Node.js / Express',
-        gates: ['Kimlik doğrulama', 'Abonelikler + erişim hakları', 'Evcil hayvan bakım akışları'], data: ['PostgreSQL backend', 'Cihazda SQLite', 'Çevrimdışı senkronizasyon'],
-        ai: 'AI / LLM servisleri', aiFlow: 'Ürün bağlamı → sohbet ve görsel özellikleri',
-        deployment: ['iOS / Android sürümleri', 'Kullanıcı kaynaklı hata çözümleri', 'Performans ve güvenilirlik'],
-        details: [
-          'Yerel SQLite ve çevrimdışı senkronizasyonla React Native / Expo uygulamasını iOS ve Android’de geliştirdim ve yayımladım.',
-          'REST API’ler, kimlik doğrulama, abonelikler, erişim hakları, bildirimler, yönetim araçları ve bulut depolama entegrasyonları geliştirdim.',
-          'PostgreSQL backend ile cihazdaki çevrimdışı öncelikli SQLite’ı bağlayarak mobil ve backend çalışmalarını tek üründe birleştiriyorum.',
-          'Yapay zekâ sohbet ve görsel özelliklerini mobil ürüne ve backend servislerine entegre ettim.',
+      {
+        title: 'Servisleri bağla',
+        description:
+          'Ürünün ihtiyaç duyduğu yetenekleri sınırları belirli entegrasyonlarla birleştir.',
+        outcome: 'Birbirine bağlı tek sistem',
+        labels: ['Ürün', 'Yapay zekâ', 'Ödemeler', 'Depolama', 'Bildirimler'],
+      },
+      {
+        title: 'Test et ve iyileştir',
+        description:
+          'Gerçek kullanıcı yolculuklarını izle. Uç durumları bul. Deneyimi sağlamlaştır.',
+        outcome: 'İdeal akışın ötesine hazır',
+        labels: [
+          'Kullanıcı akışları',
+          'Uç durumlar',
+          'Cihazlar',
+          'Erişilebilirlik',
+          'Performans',
+          'Regresyonlar',
         ],
       },
+      {
+        title: 'Canlıya al',
+        description:
+          'Yerel geliştirmeden yapılandırılmış ortamlara ve tekrarlanabilir sürümlere geç.',
+        outcome: 'Çalışan yazılım',
+        labels: ['Yapılandır', 'Veriyi taşı', 'Yayımla', 'Web / mobil / bulut'],
+      },
+      {
+        title: 'Gözlemle ve geliştir',
+        description:
+          'Canlıdaki sorunları ve kullanıcı geri bildirimlerini bir sonraki faydalı değişime dönüştür.',
+        outcome: 'Bir sonraki iterasyon',
+        labels: [
+          'Loglar + geri bildirim',
+          'Hata çöz + geliştir',
+          'Yeni gereksinim',
+        ],
+      },
+    ],
+    map: {
+      requirement: 'Ürün gereksinimi',
+      scope: 'Kullanıcı akışı + ilk faydalı sürüm',
+      experience: 'Ürün deneyimi',
+      interface: 'Web / mobil arayüz',
+      states: 'Duyarlı · yükleme · boş · hata',
+      application: 'Uygulama katmanı',
+      api: 'API',
+      auth: 'Kimlik + yetkiler',
+      logic: 'İş mantığı',
+      data: 'Veri modeli',
+      records: 'İlişkiler + bütünlük',
+      boundaries: 'Erişim + veri sınırları',
+      local: 'Gerektiğinde yerel / çevrimdışı',
+      services: 'Entegrasyonlar',
+      optional: 'Ürünün ihtiyacına göre',
+      integrations: ['Yapay zekâ', 'Ödemeler', 'Depolama', 'Bildirimler'],
+      quality: 'Test + iyileştirme',
+      checks: 'Kullanıcı akışları · uç durumlar · cihazlar · performans',
+      production: 'Canlı ortam',
+      release: 'Ortam → veri geçişi → sürüm',
+      feedback: 'Loglar → hata çözümü → iyileştirme',
+      return: 'Yeni gereksinime dönüş',
     },
-    tenancy: {
-      title: 'Tek ürün. Ayrı işletmeler.', description: 'Erişim ve veri sınırları açıkça tanımlanmış ortak bir uygulama.',
-      label: 'Kavramsal kiracı izolasyonu: her şirket rol tabanlı erişim kontrolünden geçerek kendi kayıtlarına erişir.',
-      company: 'Şirket', boundary: 'Erişim sınırı', records: 'Kayıtlar', caption: 'Mantıksal kiracı izolasyonu · rol tabanlı erişim',
-    },
-    offline: {
-      title: 'Bağlantı olmasa da çalışır.', description: 'Cihazda yerel veri. Backend ile senkronizasyon.',
-      label: 'Kavramsal çevrimdışı akış: mobil arayüz yerel SQLite kullanır; senkronizasyon cihazı REST API ve PostgreSQL’e bağlar.',
-      device: 'Cihazda', cloud: 'Backend’de', mobile: 'Mobil arayüz', local: 'Çevrimdışı erişim',
-      connection: 'Bağlantı varken', synchronize: 'Senkronizasyon', backend: 'Ortak ürün verisi', caption: 'Çevrimdışı öncelikli mimari · SQLite senkronizasyonu',
-    },
-    lifecycle: {
-      title: 'Yayınlamak bir döngü.', description: 'Sürüm öncesinde de sonrasında da sorumluluk bende.',
-      steps: [['Tanımla', 'Ürün ihtiyacı'], ['Geliştir', 'UI + iş mantığı'], ['Entegre et', 'API + veri'], ['Yayımla', 'Dağıtım + sürüm'], ['Gözlemle', 'Gerçek sorunlar'], ['İyileştir', 'Düzelt + hızlandır']],
-      loop: 'Canlıdan gelen geri bildirim bir sonraki değişime yön verir',
-    },
-    also: 'Diğer canlı projelerden', operations: 'İç operasyonlar', affiliate: 'Satış ortaklığı platformu', realtime: 'Gerçek zamanlı takip + ödeme akışları',
+    close: 'Yayınlamak bir kilometre taşı.',
+    closeEnd: 'Sorumluluk devam eder.',
+    closeDetail: 'Gerçek kullanım → geri bildirim → sonraki iterasyon',
   },
 } as const;

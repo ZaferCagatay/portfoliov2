@@ -1,66 +1,59 @@
 'use client';
-import { useId, useState } from 'react';
-import { ArrowDown, ArrowRight, Box, Check, ChevronRight, Database, Fingerprint, Layers3, LockKeyhole, Monitor, Network, Smartphone, Workflow } from 'lucide-react';
+import { useContext } from 'react';
+import { ArrowDown, ArrowLeft, ArrowRight, Bell, Check, CheckCheck, CreditCard, Database, GitBranch, HardDrive, LockKeyhole, Monitor, RefreshCw, Smartphone, Workflow } from 'lucide-react';
 import { engineeringCopy } from '@/data/engineering';
+import { EngineeringContext } from './engineering-motion';
 import type { Locale } from '@/types/content';
 import styles from './engineering.module.css';
 
+function Wire({ built, branch = false }: { built: boolean; branch?: boolean }) {
+  return <div className={`${styles.wire} ${branch ? styles.splitWire : ''}`} data-built={built} aria-hidden="true"><svg viewBox={branch ? '0 0 600 24' : '0 0 24 24'} preserveAspectRatio="none"><path d={branch ? 'M300 0V9H150V23m-4-4 4 4 4-4M300 9H450V23m-4-4 4 4 4-4' : 'M12 0V23m-4-4 4 4 4-4'} pathLength="1" /></svg></div>;
+}
+
 export function EngineeringDiagram({ locale }: { locale: Locale }) {
+  const { active, select, engaged } = useContext(EngineeringContext);
   const c = engineeringCopy[locale];
-  const [product, setProduct] = useState<'karta' | 'pavlov'>('karta');
-  const [layer, setLayer] = useState(1);
-  const detailId = useId();
-  const project = c.projects[product];
-  const mobile = product === 'pavlov';
-  const layers = [Monitor, LockKeyhole, Database];
+  const m = c.map;
+  const phase = active;
+  const state = (step: number) => ({ 'data-built': phase >= step, 'data-current': phase === step });
+  const icons = [Workflow, CreditCard, HardDrive, Bell];
   return (
-    <div className={styles.system}>
-      <div className={styles.systemToolbar}>
-        <div className={styles.productControls} role="group" aria-label={c.explore}>
-          {(['karta', 'pavlov'] as const).map((id) => <button key={id} type="button" aria-pressed={product === id} onClick={() => setProduct(id)}><span className={styles.productMark} aria-hidden="true">{id === 'karta' ? 'k' : 'p'}</span>{id === 'karta' ? 'Karta' : 'Pavlov'}<span className={styles.productType}>{id === 'karta' ? 'SaaS' : 'iOS / Android'}</span></button>)}
-        </div>
-        <span className={styles.mapLabel}><Network size={14} aria-hidden="true" />{c.summary}</span>
+    <div className={styles.visualColumn}>
+      <div className={styles.stickyVisual}>
+        <header className={styles.visualHeader}>
+          <div><span className={styles.visualTitle}>{c.assembly}</span><span className={styles.staticStatus}>{c.complete}</span><span className={styles.activeStatus} role="status" aria-live="polite" aria-atomic="true"><span className={styles.phaseCount}>{String(phase + 1).padStart(2, '0')} / {String(c.stages.length).padStart(2, '0')}</span>{c.stages[phase].title}</span></div>
+          <div className={styles.visualControls}>
+            <button type="button" aria-controls="engineering-steps" onClick={() => select(Math.max(0, active - 1))} disabled={!engaged || active === 0} aria-label={c.previous}><ArrowLeft size={16} aria-hidden="true" /></button>
+            <button type="button" aria-controls="engineering-steps" onClick={() => select(Math.min(c.stages.length - 1, active + 1))} disabled={!engaged || active === c.stages.length - 1} aria-label={c.next}><ArrowRight size={16} aria-hidden="true" /></button>
+          </div>
+        </header>
+        <figure className={styles.canvas} aria-label={c.diagram}>
+          <div className={styles.feedbackRoute} {...state(7)} aria-hidden="true"><span /><svg viewBox="0 0 20 20"><path d="M2 10h16m-5-5 5 5-5 5" /></svg></div>
+          <div className={styles.systemBody}>
+            <div className={`${styles.requirement} ${styles.block}`} {...state(0)}><GitBranch size={18} aria-hidden="true" /><strong>{m.requirement}</strong><span>{m.scope}</span></div>
+            <Wire built={phase >= 1} />
+            <div className={styles.productBoundary} {...state(1)}>
+              <div className={styles.boundaryLabel}><span />{m.experience}<span /></div>
+              <div className={`${styles.interface} ${styles.block}`} {...state(2)}>
+                <div className={styles.interfaceTop}><Monitor size={17} aria-hidden="true" /><Smartphone size={13} aria-hidden="true" /><strong>{m.interface}</strong><span className={styles.windowDots} aria-hidden="true"><i /><i /><i /></span></div>
+                <div className={styles.interfaceBody}><span className={styles.uiNavigation} aria-hidden="true"><i /><i /><i /></span><span className={styles.uiContent} aria-hidden="true"><i /><span><i /><i /><i /></span></span><span className={styles.interfaceStates}>{m.states}</span></div>
+              </div>
+              <Wire built={phase >= 3} />
+              <div className={`${styles.application} ${styles.block}`} {...state(3)}><span className={styles.blockLabel}>{m.application}</span><div><span>{m.api}</span><ArrowRight size={13} aria-hidden="true" /><span><LockKeyhole size={13} aria-hidden="true" />{m.auth}</span><ArrowRight size={13} aria-hidden="true" /><span>{m.logic}</span></div></div>
+              <Wire branch built={phase >= 3} />
+              <div className={styles.systemBranches}>
+                <div className={`${styles.data} ${styles.block}`} {...state(3)}><strong><Database size={17} aria-hidden="true" />{m.data}</strong><div className={styles.dataRelationships}><span>{m.records}</span><span>{m.boundaries}</span></div><span className={styles.localLabel}>{m.local}</span></div>
+                <div className={`${styles.integrations} ${styles.block}`} {...state(4)}><strong><Workflow size={17} aria-hidden="true" />{m.services}</strong><div>{m.integrations.map((integration, i) => { const Icon = icons[i]; return <span key={integration}><Icon size={12} aria-hidden="true" />{integration}</span>; })}</div><span className={styles.localLabel}>{m.optional}</span></div>
+              </div>
+            </div>
+            <div className={`${styles.quality} ${styles.block}`} {...state(5)}><CheckCheck size={17} aria-hidden="true" /><strong>{m.quality}</strong><span>{m.checks}</span></div>
+            <Wire built={phase >= 6} />
+            <div className={`${styles.production} ${styles.block}`} {...state(6)}><span className={styles.productionMark} aria-hidden="true"><Check size={14} /></span><strong>{m.production}</strong><span>{m.release}</span></div>
+            <div className={styles.returnFlow} {...state(7)}><ArrowDown size={14} aria-hidden="true" /><span><RefreshCw size={14} aria-hidden="true" />{m.feedback}</span><span>{m.return}</span></div>
+          </div>
+          <figcaption>{c.diagramNote}</figcaption>
+        </figure>
       </div>
-      <figure aria-label={`${product === 'karta' ? 'Karta' : 'Pavlov'} — ${c.systemLabel}`}>
-        <div className={styles.map} key={product}>
-          <div className={styles.mapHeading}><span>{project.kind}</span><span>{c.inspect}</span></div>
-          <div className={styles.architecture}>
-            {c.layers.map((label, index) => {
-              const Icon = mobile && index === 0 ? Smartphone : layers[index];
-              return (
-                <div className={styles.layer} key={label}>
-                  <div className={styles.layerLabel}><span>{String(index + 1).padStart(2, '0')}</span>{label}</div>
-                  <button type="button" className={`${styles.node} ${index === 0 ? styles.clientNode : index === 1 ? styles.apiNode : styles.dataNode}`} aria-pressed={layer === index} aria-controls={detailId} onClick={() => setLayer(index)}>
-                    <span className={styles.nodeTitle}><Icon size={19} strokeWidth={1.5} aria-hidden="true" /><strong>{index === 0 ? project.client : index === 1 ? 'API / Services' : 'PostgreSQL'}</strong><ChevronRight size={14} aria-hidden="true" /></span>
-                    {index === 0 ? <>
-                      <span className={styles.tech}>{project.clientTech}</span>
-                      <span className={`${styles.interfaceVisual} ${mobile ? styles.phoneVisual : ''}`}>
-                        <span className={styles.interfaceBar}><i /><i /><i /><span>{mobile ? 'Pavlov' : 'Karta'}</span></span>
-                        <span className={styles.screenRows}>{project.screens.map((screen, i) => <span key={screen}><span className={styles.screenGlyph} aria-hidden="true">{i === 2 ? <Workflow size={13} /> : <Layers3 size={13} />}</span>{screen}<ChevronRight size={12} aria-hidden="true" /></span>)}</span>
-                      </span>
-                    </> : index === 1 ? <>
-                      <span className={styles.tech}>{project.api}</span>
-                      <span className={styles.gates}>{project.gates.map((gate, i) => <span key={gate}>{i === 0 ? <Fingerprint size={15} aria-hidden="true" /> : i === 1 ? <LockKeyhole size={15} aria-hidden="true" /> : <Workflow size={15} aria-hidden="true" />}{gate}{i < 2 && <ArrowDown size={12} className={styles.gateArrow} aria-hidden="true" />}</span>)}</span>
-                    </> : <>
-                      <span className={styles.tech}>{mobile ? 'PostgreSQL / SQLite' : 'PostgreSQL / SQL'}</span>
-                      <span className={styles.recordStack}>{project.data.map((record, i) => <span key={record}><span className={styles.recordKey} aria-hidden="true">{i === 0 ? <Database size={13} /> : <Layers3 size={13} />}</span>{record}<i aria-hidden="true" /></span>)}</span>
-                    </>}
-                  </button>
-                  {index < 2 && <span className={styles.connector} aria-hidden="true"><svg viewBox="0 0 60 24"><path d="M0 12H58m-6-5 6 5-6 5" pathLength="1" data-engineering-path /></svg><span>{index === 0 ? 'REST' : 'SQL'}</span></span>}
-                </div>
-              );
-            })}
-          </div>
-          <div className={styles.integrationRow}>
-            <span className={styles.integrationNote}><span className={styles.branchLine} aria-hidden="true" />{c.ai}</span>
-            <button type="button" className={styles.aiNode} aria-pressed={layer === 3} aria-controls={detailId} onClick={() => setLayer(3)}><Workflow size={18} aria-hidden="true" /><span><strong>{project.ai}</strong><span>{project.aiFlow}</span></span><ChevronRight size={15} aria-hidden="true" /></button>
-            <span className={styles.integrationReturn}><ArrowRight size={16} aria-hidden="true" />{project.screens[2]}</span>
-          </div>
-          <div className={styles.delivery}><span><Box size={16} aria-hidden="true" />{c.deployment}</span><ul>{project.deployment.map(item => <li key={item}><Check size={13} aria-hidden="true" />{item}</li>)}</ul></div>
-        </div>
-        <figcaption className={styles.mapCaption}>{c.overview}</figcaption>
-      </figure>
-      <div className={styles.inspector} id={detailId} role="status" aria-live="polite" aria-atomic="true"><span>{c.ownership}<strong>{layer === 3 ? 'AI' : c.layers[layer]}</strong></span><p>{project.details[layer]}</p></div>
     </div>
   );
 }

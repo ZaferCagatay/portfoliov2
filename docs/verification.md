@@ -40,3 +40,11 @@ Additional tests cover animation/manual pause, static reduced motion after point
 - Final desktop/mobile captures in `.impeccable/review/{desktop,mobile,desktop-tr,mobile-tr}.png`; previous captures preserved under `phase1/`. New capture script: `scripts/review-phase2.mjs`. Existing hero layout and SonarGrid preserved, with work anchors updated as planned.
 - Independent finish review: sole semantic issue resolved, disposition **ship**. Mechanical detector recorded 47 advisory font-ramp findings against earlier design documentation, no non-advisory findings. All eight local raster assets have provenance records.
 - Canonical domain remains the resume-proposed domain pending launch verification. Set `SITE_URL` for the confirmed deployment origin. No deployment or field-performance claim made.
+
+## Production engineering interaction — 2026-09-10
+
+- Full composition pins from the first stage through the final stage’s complete scroll range. One measured scroll source drives both progression and stationary arrow navigation.
+- General product lifecycle content and existing visuals are preserved; projects remain internal capability evidence.
+- Webpack production build, lint, and all 29 selected interaction, accessibility, and responsive regression tests pass. Pinning is verified down to 1280×720, with both locales, reduced motion, mobile fallback, entry/exit, keyboard input, repeated same-coordinate clicks, and boundary stability.
+- Independent finish review: **ship**, no material findings across source and all 14 required screenshots. Section-level axe checks report no violations or overflow.
+- Implementation details, reproducible commands, and scoped limitations: [engineering-interaction.md](engineering-interaction.md). Captures: `.impeccable/review/engineering-pinned/`.
