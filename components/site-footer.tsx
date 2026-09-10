@@ -12,8 +12,12 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           © {new Date().getFullYear()} {profile.name}
         </p>
         <nav aria-label={locale === 'en' ? 'Footer' : 'Alt menü'}>
-          <a href={profile.github}>GitHub</a>
-          <a href={profile.resume}>{c.resume}</a>
+          <a href={profile.github} target="_blank">
+            GitHub
+          </a>
+          <a href={profile.resume} target="_blank">
+            {c.resume}
+          </a>
           <a
             href={locale === 'en' ? '/tr' : '/'}
             lang={locale === 'en' ? 'tr' : 'en'}

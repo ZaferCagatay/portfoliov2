@@ -49,11 +49,11 @@ export function Hero({ copy }: { copy: Copy }) {
             <p className="working-arrangement">{copy.working}</p>
           </div>
           <div className="editorial-actions">
-            <TextLink href={`mailto:${profile.email}`}>
+            <TextLink href={`mailto:${profile.email}`} target="_blank">
               {copy.contact}
               <ArrowUpRight size={18} aria-hidden="true" />
             </TextLink>
-            <TextLink href={profile.resume}>
+            <TextLink href={profile.resume} target="_blank">
               {copy.resume}
               <ArrowUpRight size={16} aria-hidden="true" />
             </TextLink>

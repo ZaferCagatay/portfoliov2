@@ -26,25 +26,29 @@ export function Contact({ locale }: { locale: Locale }) {
         <div className="contact-layout">
           <div>
             <p className="contact-invitation">{c.invitation}</p>
-            <a className="email-address" href={`mailto:${profile.email}`}>
+            <a
+              className="email-address"
+              href={`mailto:${profile.email}`}
+              target="_blank"
+            >
               {profile.email}
             </a>
             <p className="contact-context">{c.working}</p>
           </div>
           <div>
             <div className="contact-buttons">
-              <ButtonLink href={`mailto:${profile.email}`}>
+              <ButtonLink href={`mailto:${profile.email}`} target="_blank">
                 {c.email}
                 <ArrowUpRight size={18} aria-hidden="true" />
               </ButtonLink>
               <CopyEmailButton labels={c} />
             </div>
             <div className="contact-links">
-              <TextLink href={profile.github}>
+              <TextLink href={profile.github} target="_blank">
                 GitHub
                 <ArrowUpRight size={16} aria-hidden="true" />
               </TextLink>
-              <TextLink href={profile.resume}>
+              <TextLink href={profile.resume} target="_blank">
                 {c.resume}
                 <ArrowUpRight size={16} aria-hidden="true" />
               </TextLink>
